@@ -8,3 +8,5 @@ CFLAGS += -DNEMU_HOME=\".\" -DCONFIG_ISA_$(GUEST_ISA)
 INC_PATH += include
 
 include build.mk
+
+include main.mk
