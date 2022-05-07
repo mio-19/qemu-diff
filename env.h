@@ -5,8 +5,16 @@
 #include "difftest-def.h"
 #include "isa.h"
 #include "common.h"
+// another common.h
+#ifdef CONFIG_ISA64
+typedef uint64_t word_t;
+#else
+typedef uint32_t word_t;
+#endif
+typedef word_t vaddr_t;
+#include "isa-def.h"
 
-union isa_gdb_regs qemu_regs;
+union CPU_state qemu_regs;
 
 const char *regs[] = {
         "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
