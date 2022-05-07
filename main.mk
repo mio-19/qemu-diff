@@ -1,2 +1,2 @@
-diffTest: $(SRCS) main.c
+build/diffTest: $(SRCS) main.c
 	$(CC) $(CFLAGS) -o $@ $^

@@ -8,6 +8,7 @@
 void difftest_init(int port);
 void difftest_regcpy(void *dut, bool direction);
 void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction);
+void difftest_exec(uint64_t n);
 
 int main(int argc, char *argv[]) {
     // exit if the number of arguments is not 2
@@ -24,8 +25,8 @@ int main(int argc, char *argv[]) {
     // run the program
     int c = instr_number;
     while (c--) {
-        ref_difftest_exec(1);
-        difftest_regcpy(&qemu_r, DIFFTEST_TO_DUT);
+        difftest_exec(1);
+        difftest_regcpy(&qemu_regs, DIFFTEST_TO_DUT);
         isa_reg_display();
     }
 
