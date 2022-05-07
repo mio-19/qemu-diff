@@ -18,17 +18,18 @@ const char *regs[] = {
 inline void isa_reg_display() {
     // print registers
     // pc
-    printf("pc: 0x%lx\n", qemu_regs.pc);
+    printf("pc: 0x%lx ", qemu_regs.pc);
     // gpr
-    printf("gpr:\n");
     for (int i = 0; i < 32; i++) {
-        printf("%s: 0x%lx\n", regs[i], qemu_regs.gpr[i]);
+        uint64_t reg = qemu_regs.gpr[i];
+        if(reg) printf("%s: 0x%lx ", regs[i], reg);
     }
     // fpr
-    printf("fpr:\n");
     for (int i = 0; i < 32; i++) {
-        printf("fpr%d: 0x%lx\n", i, qemu_regs.fpr[i]);
+        uint64_t reg = qemu_regs.fpr[i];
+        if(reg) printf("fpr%d: 0x%lx %lf", i, reg, (double) reg);
     }
+    printf("\n");
 }
 
 const uint32_t img [] = {
