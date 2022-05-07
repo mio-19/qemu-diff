@@ -6,8 +6,8 @@
 #define RESET_VECTOR (CONFIG_MBASE + CONFIG_PC_RESET_OFFSET)
 
 void difftest_init(int port);
-
 void difftest_regcpy(void *dut, bool direction);
+void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction);
 
 int main(int argc, char *argv[]) {
     // exit if the number of arguments is not 2
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     int port = atoi(argv[1]);
     // initialize difftest
     difftest_init(port);
-    difftest_memcpy(RESET_VECTOR, img, img_size);
+    difftest_memcpy(RESET_VECTOR, (void*) img, img_size, DIFFTEST_TO_REF);
 
     // run the program
     int c = instr_number;

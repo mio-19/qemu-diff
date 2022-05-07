@@ -1,2 +1,2 @@
 diffTest: $(SRCS) main.c
-	$(CC) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
