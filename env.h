@@ -34,7 +34,7 @@ const char *regs[] = {
         "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
-inline void isa_reg_display() {
+static void isa_reg_display() {
     // print registers
     // pc
     printf("pc: 0x%lx ", qemu_regs.pc);
@@ -54,10 +54,12 @@ inline void isa_reg_display() {
 }
 
 const uint32_t img [] = {
-        0x800002b7,  // lui t0,0x80000
-        0x0002a023,  // sw  zero,0(t0)
-        0x0002a503,  // lw  a0,0(t0)
-        0x0000006b,  // nemu_trap
+        // taken from https://riscvasm.lucasteske.dev/
+        0x3e800093, // addi x1 , x0,   1000  /* x1  = 1000 0x3E8 */
+        0x7d008113, // addi x2 , x1,   2000  /* x2  = 3000 0xBB8 */
+        0xc1810193, // addi x3 , x2,  -1000  /* x3  = 2000 0x7D0 */
+        0x83018213, // addi x4 , x3,  -2000  /* x4  = 0    0x000 */
+        0x3e820293, // addi x5 , x4,   1000  /* x5  = 1000 0x3E8 */
 };
 
 #define img_size sizeof(img)

@@ -25,6 +25,11 @@ int main(int argc, char *argv[]) {
     difftest_memcpy(RESET_VECTOR, (void *) img, img_size, DIFFTEST_TO_REF);
 
     // run the program
+    difftest_regcpy(&qemu_regs, DIFFTEST_TO_DUT);
+    qemu_regs.pc = RESET_VECTOR;
+    difftest_regcpy(&qemu_regs, DIFFTEST_TO_REF);
+    difftest_regcpy(&qemu_regs, DIFFTEST_TO_DUT);
+    isa_reg_display();
     int c = instr_number;
     while (c--) {
         difftest_exec(1);
