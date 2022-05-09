@@ -29,12 +29,11 @@ int main(int argc, char *argv[]) {
     qemu_regs.pc = RESET_VECTOR;
     difftest_regcpy(&qemu_regs, DIFFTEST_TO_REF);
     difftest_regcpy(&qemu_regs, DIFFTEST_TO_DUT);
-    isa_reg_display();
     int c = instr_number;
     while (c--) {
         difftest_exec(1);
         difftest_regcpy(&qemu_regs, DIFFTEST_TO_DUT);
-        isa_reg_display();
+        do_isa_reg_display();
     }
 
     return 0;

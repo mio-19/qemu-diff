@@ -18,34 +18,27 @@ typedef uint32_t word_t;
 typedef word_t vaddr_t;
 #include "isa-def.h"
 
-// macro.h
-#define concat_temp(x, y) x ## y
-#define concat(x, y) concat_temp(x, y)
+#include "macro.h"
 
 // another isa.h
 typedef concat(__GUEST_ISA__, _CPU_state) CPU_state;
 
 CPU_state qemu_regs;
 
-const char *regs[] = {
-        "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
-        "s0", "s1", "a0", "a1", "a2", "a3", "a4", "a5",
-        "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7",
-        "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
-};
+#include "reg.c.h"
 
-static void isa_reg_display() {
+static void do_isa_reg_display() {
     // print registers
     // pc
-    printf("pc: 0x%lx ", qemu_regs.pc);
+    printf("pc=0x%lx ", qemu_regs.pc);
     // gpr
     for (int i = 0; i < sizeof(qemu_regs.gpr)/ sizeof(*qemu_regs.gpr); i++) {
         #if defined(CONFIG_ISA64) && CONFIG_ISA64 == 1
         uint64_t reg = qemu_regs.gpr[i]._64;
-        if(reg) printf("%s: 0x%lx ", regs[i], reg);
+        if(reg) printf("%d:%s=0x%lx ", i, regs[i], reg);
         #elif defined(CONFIG_ISA32) && CONFIG_ISA32 == 1
         uint32_t reg = qemu_regs.gpr[i]._32;
-        if(reg) printf("%s: 0x%x ", regs[i], reg);
+        if(reg) printf("%d:%s=0x%x ", i, regs[i], reg);
         #else
         #error "No ISA defined"
         #endif
